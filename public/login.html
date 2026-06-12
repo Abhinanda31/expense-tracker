@@ -1,100 +1,121 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Login</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <h1>Login</h1>
+    <div class="login-container">
 
-    <form id="loginForm">
+        <div class="login-card">
 
-        <input
-            type="email"
-            id="email"
-            placeholder="Email"
-            required
-        >
+            <h1>💰 Expense Tracker</h1>
 
-        <br><br>
+            <h2>Login</h2>
 
-        <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            required
-        >
+            <form id="loginForm">
 
-        <br><br>
+                <input type="email" id="email" placeholder="Email" required>
 
-        <button type="submit">
-            Login
-        </button>
+                <input type="password" id="password" placeholder="Password" required>
 
-    </form>
+                <button type="submit" class="submit-btn">
+                    Login
+                </button>
+
+            </form>
+
+            <br>
+
+            <a href="/signup.html">
+                Don't have an account? Sign Up
+            </a>
+
+        </div>
+
+    </div>
 
     <script>
 
-    document
-      .getElementById("loginForm")
-      .addEventListener("submit", async (event) => {
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", async (event) => {
 
-        event.preventDefault();
+                event.preventDefault();
 
-        const email =
-          document.getElementById("email").value;
+                const email =
+                    document.getElementById("email").value;
 
-        const password =
-          document.getElementById("password").value;
+                const password =
+                    document.getElementById("password").value;
 
-        try {
+                try {
 
-          const response = await fetch(
-            "/api/auth/login",
-            {
-              method: "POST",
+                    const response = await fetch(
+                        "/api/auth/login",
+                        {
+                            method: "POST",
 
-              headers: {
-                "Content-Type": "application/json"
-              },
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
 
-              body: JSON.stringify({
-                email,
-                password
-              })
-            }
-          );
+                            body: JSON.stringify({
+                                email,
+                                password
+                            })
+                        }
+                    );
 
-          const data = await response.json();
+                    const data =
+                        await response.json();
 
-          if (response.ok) {
+                    if (response.ok) {
 
-            localStorage.setItem(
-              "token",
-              data.token
-            );
+                        localStorage.setItem(
+                            "token",
+                            data.token
+                        );
 
-            alert("Login successful");
+                        localStorage.setItem(
+                            "role",
+                            data.user.role
+                        );
 
-            window.location.href =
-              "/dashboard.html";
+                        localStorage.setItem(
+                            "email",
+                            data.user.email
+                        );
 
-          } else {
+                        localStorage.setItem(
+                            "name",
+                            data.user.name
+                        );
 
-            alert(data.message);
+                        alert("Login successful");
 
-          }
+                        window.location.href =
+                            "/dashboard.html";
 
-        } catch (error) {
+                    } else {
 
-          alert("Something went wrong");
+                        alert(data.message);
 
-        }
+                    }
 
-      });
+                } catch (error) {
+
+                    alert("Something went wrong");
+
+                }
+
+            });
 
     </script>
 
 </body>
+
 </html>

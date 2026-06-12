@@ -14,10 +14,11 @@ const auth = (req, res, next) => {
       token,
       process.env.JWT_SECRET
     );
+    
+req.userId = decoded.userId;
+req.role = decoded.role;
 
-    req.userId = decoded.userId;
-
-    next();
+next();
 
   } catch (error) {
     res.status(401).json({
