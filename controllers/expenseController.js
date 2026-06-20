@@ -1,6 +1,16 @@
 const Expense = require("../models/Expense");
 
+const { validationResult } = require("express-validator");
+
 const addExpense = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors.array(),
+    });
+  }
+
   try {
     const { amount, category, date, note } = req.body;
 
@@ -39,69 +49,61 @@ const getExpenses = async (req, res) => {
 
 const deleteExpense = async (req, res) => {
   try {
-
     const expense = await Expense.findOneAndDelete({
       _id: req.params.id,
-      user: req.userId
+      user: req.userId,
     });
 
     if (!expense) {
       return res.status(404).json({
-        message: "Expense not found"
+        message: "Expense not found",
       });
     }
 
     res.status(200).json({
-      message: "Expense deleted successfully"
+      message: "Expense deleted successfully",
     });
-
   } catch (error) {
-
     res.status(500).json({
-      message: error.message
+      message: error.message,
     });
-
   }
 };
 
 const updateExpense = async (req, res) => {
   try {
-
     const { amount, category, date, note } = req.body;
 
     const expense = await Expense.findOneAndUpdate(
       {
         _id: req.params.id,
-        user: req.userId
+        user: req.userId,
       },
       {
         amount,
         category,
         date,
-        note
+        note,
       },
       {
-        new: true
-      }
+        new: true,
+      },
     );
 
     if (!expense) {
       return res.status(404).json({
-        message: "Expense not found"
+        message: "Expense not found",
       });
     }
 
     res.status(200).json({
       message: "Expense updated successfully",
-      expense
+      expense,
     });
-
   } catch (error) {
-
     res.status(500).json({
-      message: error.message
+      message: error.message,
     });
-
   }
 };
 
@@ -141,5 +143,5 @@ module.exports = {
   getExpenses,
   getDashboard,
   deleteExpense,
-  updateExpense
+  updateExpense,
 };
