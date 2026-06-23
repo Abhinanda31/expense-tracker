@@ -102,7 +102,7 @@
                         "/api/expenses/dashboard",
                         {
                             headers: {
-                                Authorization: token
+                                Authorization: `Bearer ${token}`
                             }
                         }
                     );
@@ -115,7 +115,7 @@
                         "/api/expenses",
                         {
                             headers: {
-                                Authorization: token
+                                Authorization: `Bearer ${token}`
                             }
                         }
                     );
@@ -228,7 +228,7 @@
 
                                 headers: {
                                     "Content-Type": "application/json",
-                                    Authorization: token
+                                    Authorization: `Bearer ${token}`
                                 },
 
                                 body: JSON.stringify({
@@ -311,7 +311,7 @@
                         method: "DELETE",
 
                         headers: {
-                            Authorization: token
+                            Authorization: `Bearer ${token}`
                         }
                     }
                 );
